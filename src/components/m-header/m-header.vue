@@ -1,7 +1,9 @@
 <template>
   <div class="m-header">
-    <div class="icon"></div>
-    <h1 class="text">Freedom Music</h1>
+    <!-- <div class="icon"> -->
+    	<img src="./logo@2x.png" alt="">
+    <!-- </div> -->
+    <h1 class="text">Sound World</h1>
   </div>
 </template>
 
@@ -18,15 +20,21 @@
 		// background-color:red
 		text-align:center
 		color:$color-theme
-	.icon
-		display:inline-block
-		vertical-align:top
-		margin-top:6px
-		width:30px
-		height:32px
-		margin-right:9px
-		bg-image('logo')
-		background-size:30px 32px
+	// .icon
+	// 	display:inline-block
+	// 	vertical-align:top
+	// 	margin-top:6px
+	// 	width:30px
+	// 	height:32px
+	// 	margin-right:9px
+	// 	bg-image('logo')
+	// 	background-size:30px 32px
+		img
+			display:inline-block
+			vertical-align:top
+			margin-top:6px
+			height:100%
+			//height:48px
 	.text
 		display:inline-block
 		vertical-align:top
