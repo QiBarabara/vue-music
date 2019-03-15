@@ -9,6 +9,8 @@ import fastclick from 'fastclick'
 import router from './router'
 import 'common/stylus/index.styl'
 
+import store from './store';
+
 fastclick.attach(document.body);//点击不会有300ms的延迟
 
 Vue.use(VueLazyLoad,{
@@ -22,5 +24,6 @@ new Vue({
   el: '#app',
   components: { App },
   template: '<App/>',
-  router
+  router,
+  store
 })
