@@ -19,7 +19,7 @@
 		 				热门歌单推荐
 		 			</h1>
 		 			<ul>
-		 				<li v-for='item in discList' class="item">
+		 				<li v-for='item in discList' class="item" @click='selectItem(item)'>
 		 					<div class="icon">
 		 						<!-- <img :src='item.imgurl' width="60px" height="60px"> 改成懒加载-->
 		 						<img v-lazy='item.imgurl' width="60px" height="60px">
@@ -36,6 +36,8 @@
 	 			<Loading></Loading>
 	 		</div>
 	 	</Scroll>
+	 	<!-- 二级路由容器 -->
+	 	<router-view></router-view>	
 	</div>
 </template>
 
@@ -46,7 +48,7 @@
 	import Scroll from 'base/scroll/scroll'
 	import Loading from 'base/loading/loading'
 	import {playlistMixin} from 'common/js/mixin'
-
+	import {mapMutations} from 'vuex'
 
 	export default{
 		mixins:[playlistMixin],
@@ -71,6 +73,12 @@
 				this.$refs.recommend.style.bottom=bottom;
 				this.$refs.scroll.refresh();
 			},
+			selectItem(item){
+				this.$router.push({
+					path:`/recommend/${item.dissid}`
+				})
+				this.setDisc(item);
+			},
 			_getRecommend(){
 				getRecommend().then((res)=>{
 					console.log(res);
@@ -94,7 +102,10 @@
 					this.$refs.scroll.refresh();	
 					this.checkLoaded=true;				
 				}
-			}
+			},
+			...mapMutations({
+				setDisc:'SET_DISC'
+			})
 		},
 		components:{
 			Slider,

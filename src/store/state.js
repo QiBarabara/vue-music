@@ -8,5 +8,6 @@ const state={
 	sequenceList:[],//顺序播放
 	mode:playMode.sequence,//播放模式
 	currentIndex:-1,//当前播放索引
+	disc:{}//歌单对象，与singer类似
 }
 export default state
