@@ -1,6 +1,6 @@
 <template>
     <div class="singer" ref='singer'>
-		<ListView :data='singers' @select='selectSinger'></ListView>	
+		<ListView :data='singers' @select='selectSinger' ref='list'></ListView>	
 		<!-- 承载子路由 -->
 		<router-view></router-view>
 	</div>
@@ -13,11 +13,13 @@
 	import ListView from 'base/listview/listview'
 
 	import {mapMutations} from 'vuex';//vuex对mutations做的封装
+	import {playlistMixin} from 'common/js/mixin';
 
 	const Hot_Name='热门';
 	const Hot_Singers_Line=10;
 
 	export default{
+		mixins:[playlistMixin],
 		data(){
 			return{
 				singers:[]
@@ -30,6 +32,11 @@
 			ListView
 		},
 		methods:{
+			handlePlaylist(playlist){
+				const bottom=playlist.length>0?'60px':'';
+				this.$refs.singer.style.bottom=bottom;
+				this.$refs.list.refresh();
+			},
 			selectSinger(singer){
 				this.$router.push({
 					path:`/singer/${singer.id}`
