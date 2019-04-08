@@ -13,6 +13,8 @@ export function shuffle(arr) {
   return _arr
 }
 
+
+//节流函数，对某个函数做节流，返回一个函数。新的函数会延迟执行要节流的函数
 export function debounce(func, delay) {
   let timer
 

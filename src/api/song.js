@@ -4,7 +4,7 @@ import axios from 'axios'
 import { ERR_OK } from 'api/config'
 
 const debug = process.env.NODE_ENV !== 'production'
-//获取歌词
+
 export function getLyric(mid) {
   const url = debug ? '/api/lyric' : 'http://ustbhuangyi.com/music/api/lyric'
 
@@ -89,21 +89,19 @@ export function getSongsUrl(songs) {
     request()
   })
 }
- 
-// 添加获取 URL MID
-function genUrlMid(mids, types) {
-    const guid = getUid()
-    return {
-        module: 'vkey.GetVkeyServer',
-        method: "CgiGetVkey",
-        param: {
-            guid,
-            songmid: mids,
-            songtype: types,
-            uin: '0',
-            loginflag: 0,
-            platform: '23'
-        }
-    }
-}
 
+function genUrlMid(mids, types) {
+  const guid = getUid()
+  return {
+    module: 'vkey.GetVkeyServer',
+    method: 'CgiGetVkey',
+    param: {
+      guid,
+      songmid: mids,
+      songtype: types,
+      uin: '0',
+      loginflag: 0,
+      platform: '23'
+    }
+  }
+}

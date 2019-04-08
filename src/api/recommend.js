@@ -16,7 +16,7 @@ export function getRecommend() {
 }
 //歌单数据
 export function getDiscList(){
-	const url = debug ? '/api/getDiscList' : 'http://ustbhuangyi.com/music/api/getDiscList';
+	const url =  '/api/getDiscList';
 	//const url='https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg';
 	const data=Object.assign({},commonParams,{
 		platform:'yqq',
@@ -38,7 +38,7 @@ export function getDiscList(){
 }
 
 export function getSongList(disstid) {
-	const url = debug ? '/api/getCdInfo' : 'http://ustbhuangyi.com/music/api/getCdInfo';
+	const url = '/api/getCdInfo';
 	const data=Object.assign({},commonParams,{
 		disstid,
 		type:1,

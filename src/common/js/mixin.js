@@ -75,9 +75,11 @@ export const playerMixin = {
       return 'icon-not-favorite'
     },
     isFavorite(song) {
+      console.log(this.favoriteList);
       const index = this.favoriteList.findIndex((item) => {
         return item.id === song.id
       })
+      console.log(index);
       return index > -1
     },
     ...mapMutations({

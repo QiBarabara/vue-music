@@ -68,9 +68,14 @@
             <div class="icon i-right" :class="disableCls">
               <i @click="next" class="icon-next"></i>
             </div>
+            
             <div class="icon i-right">
-              <i class="icon icon-not-favorite"></i>
+              <i class="icon icon-not-favorite" :class='getFavoriteIcon(currentSong)' @click="toggleFavorite(currentSong)"></i>
             </div>
+            
+            <!-- <div class="icon i-right">
+              <i class="icon icon-not-favorite"></i>
+            </div> -->
           </div>
         </div>
       </div>
@@ -89,18 +94,19 @@
             <i @click.stop="togglePlaying" class="icon-mini" :class="miniIcon"></i>
           </progress-circle>
         </div>
-        <div class="control">
+        <div class="control" @click.stop='showPlaylist'>
           <i class="icon-playlist"></i>
         </div>
       </div>
     </transition>
+    <Playlist ref='playlist'></Playlist>
     <audio ref="audio" :src="currentSong.url" @canplay="ready" @error="error" @timeupdate="updateTime"
            @ended="end"></audio>
   </div>
 </template>
 
 <script>
-  import {mapGetters, mapMutations} from 'vuex'
+  import {mapGetters, mapMutations,mapActions} from 'vuex'
   import animations from 'create-keyframe-animation'
   import {prefixStyle} from 'common/js/dom'
   import ProgressBar from 'base/progress-bar/progress-bar'
@@ -109,11 +115,15 @@
   import {shuffle} from 'common/js/util'
   import Lyric from 'lyric-parser'
   import Scroll from 'base/scroll/scroll'
+  import Playlist from 'components/playlist/playlist'
+  import {playerMixin} from 'common/js/mixin'
+
 
   const transform = prefixStyle('transform')
   const transitionDuration = prefixStyle('transitionDuration')
 
   export default {
+    mixins:[playerMixin],
     data() {
       return {
         songReady: false,
@@ -132,9 +142,6 @@
       playIcon() {
         return this.playing ? 'icon-pause' : 'icon-play'
       },
-      iconMode() {
-        return this.mode === playMode.sequence ? 'icon-sequence' : this.mode === playMode.loop ? 'icon-loop' : 'icon-random'
-      },
       miniIcon() {
         return this.playing ? 'icon-pause-mini' : 'icon-play-mini'
       },
@@ -146,12 +153,9 @@
       },
       ...mapGetters([
         'fullScreen',
-        'playlist',
-        'currentSong',
         'playing',
         'currentIndex',
-        'mode',
-        'sequenceList'
+        'mode'
       ])
     },
     created() {
@@ -265,6 +269,7 @@
       },
       ready() {
         this.songReady = true
+        this.savePlayHistory(this.currentSong)
       },
       error() {
         this.songReady = true
@@ -389,6 +394,9 @@
         this.$refs.middleL.style[transitionDuration] = `${time}ms`
         this.touch.initiated = false
       },
+      showPlaylist(){
+        this.$refs.playlist.show()
+      },
       _pad(num, n = 2) {
         let len = num.toString().length
         while (len < n) {
@@ -418,10 +426,16 @@
         setCurrentIndex: 'SET_CURRENT_INDEX',
         setPlayMode: 'SET_PLAY_MODE',
         setPlaylist: 'SET_PLAYLIST'
-      })
+      }),
+      ...mapActions([
+        'savePlayHistory'
+      ])
     },
     watch: {
       currentSong(newSong, oldSong) {
+        if (!newSong.id) {
+          return
+        }
         if (newSong.id === oldSong.id) {
           return
         }
@@ -446,7 +460,8 @@
     components: {
       ProgressBar,
       ProgressCircle,
-      Scroll
+      Scroll,
+      Playlist
     }
   }
 </script>
